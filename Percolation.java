@@ -55,7 +55,7 @@ public class Percolation {
     }
     
     // does the system percolate?
-        public boolean percolates() {
+    public boolean percolates() {
         	return unionFind.connected(...);
     }
 }
