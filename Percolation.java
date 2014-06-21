@@ -58,7 +58,7 @@ public class Percolation {
             throw new java.lang.IndexOutOfBoundsException();
         }
     	
-    	if (!isOpen(i-1, j-1)) {
+    	if (!isOpen(i, j)) {
     		cells[i-1][j-1] = Cell.OPEN;
     		connectToOpenNeighbors(i, j);
     	}
