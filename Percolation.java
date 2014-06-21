@@ -1,5 +1,5 @@
 public class Percolation {
-   
+	
 	private enum Cell {
         CLOSED,
         OPEN,
