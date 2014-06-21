@@ -29,12 +29,18 @@ public class Percolation {
     
     // is site (row i, column j) open?
     public boolean isOpen(int i, int j) {
-        return false;
+    	if (i < 1 || i > cells.length || j < 1 || j > cells.length) {
+            throw new java.lang.IndexOutOfBoundsException();
+        }
+        return cells[i][i] == Cell.OPEN;
     } 
     
     // is site (row i, column j) full?    
     public boolean isFull(int i, int j) {
-        return false;
+    	if (i < 1 || i > cells.length || j < 1 || j > cells.length) {
+            throw new java.lang.IndexOutOfBoundsException();
+        }
+    	return cells[i][i] == Cell.LIQUID;
     }
     
     // does the system percolate?
