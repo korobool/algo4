@@ -1,6 +1,6 @@
 public class Percolation {
 	
-	private enum Cell {
+    private enum Cell {
         CLOSED,
         OPEN,
         LIQUID
