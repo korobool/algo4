@@ -10,6 +10,33 @@ public class PercolationStats {
         }
         
         t = T;
+        
+        Percolation percolation;
+        
+        values = new double[T];
+        
+        for (int t = 0; t < T; t++) {
+            
+            int n = 0;
+            percolation = new Percolation(N);
+            
+            while(n < N * N) {
+                
+                int i = StdRandom.uniform(N) + 1;
+                int j = StdRandom.uniform(N) + 1;
+                
+                if (percolation.isOpen(i, j))
+                    continue;
+                
+                n++;
+                percolation.open(i, j);
+                
+                if (percolation.percolates()) {
+                	values[t] = n / (double) (N * N);
+                    break;
+                }
+            }
+        }
     }
     
 	// sample mean of percolation threshold 
