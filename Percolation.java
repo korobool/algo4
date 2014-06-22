@@ -11,31 +11,37 @@ public class Percolation {
     private WeightedQuickUnionUF unionFind;
     
     private int conv2Dto1D(int i, int j) {
-        return i*cells.length + j;
+        return (i - 1) * cells.length + j;
     }
     
     private void connectToOpenNeighbors(int i, int j) {
         int cStart, cLast, rStart, rLast;
 
         if(i == 1) { 
-            rStart = i; rLast = i+1;
+            rStart = 1;
+            rLast = 2;
         } else if (i == cells.length) {
-            rStart = i-1; rLast = i;
+            rStart = i - 1;
+            rLast = i;
         } else {
-            rStart = i-1; rLast = i+1;
+            rStart = i - 1;
+            rLast = i + 1;
         }
         if(j == 1) { 
-            cStart = j; cLast = j+1;
+            cStart = 1;
+            cLast = 2;
         } else if (j == cells.length) {
-            cStart = j-1; cLast = j;
+            cStart = j - 1;
+            cLast = j;
         } else {
-            cStart = j-1; cLast = j+1;
+            cStart = j - 1;
+            cLast = j + 1;
         }
-	for (int r = rStart; r <= rLast; r++) {
+	    for (int r = rStart; r <= rLast; r++) {
             for (int c = cStart; c <= cLast; c++) {
-	        if (isOpen(r,c)) {
+	            if (isOpen(r,c)) {
                     unionFind.union(conv2Dto1D(i,j), conv2Dto1D(r,c));
-		}
+		        }
             }
         }
     }
