@@ -89,7 +89,7 @@ public class Percolation {
     // does the system percolate?
     public boolean percolates() {
 //   		int input = cells.length * cells.length;
-     		int input = 0;
+     		int input = 1;
 //    		int output = cells.length * cells.length + 1;
       		int output = cells.length * cells.length ;
         	return unionFind.connected(input, output);
