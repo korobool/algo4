@@ -19,23 +19,23 @@ public class Percolation {
 
         if(i == 1) { 
             rStart = 1;
-            rLast = 2;
+            rLast  = 2;
         } else if (i == cells.length) {
             rStart = i - 1;
-            rLast = i;
+            rLast  = i;
         } else {
             rStart = i - 1;
-            rLast = i + 1;
+            rLast  = i + 1;
         }
         if(j == 1) { 
             cStart = 1;
-            cLast = 2;
+            cLast  = 2;
         } else if (j == cells.length) {
             cStart = j - 1;
-            cLast = j;
+            cLast  = j;
         } else {
             cStart = j - 1;
-            cLast = j + 1;
+            cLast  = j + 1;
         }
 	    for (int r = rStart; r <= rLast; r++) {
             for (int c = cStart; c <= cLast; c++) {
@@ -88,8 +88,10 @@ public class Percolation {
     
     // does the system percolate?
     public boolean percolates() {
-    		int input = cells.length * cells.length;
-    		int output = cells.length * cells.length + 1;
+//   		int input = cells.length * cells.length;
+     		int input = 1;
+//    		int output = cells.length * cells.length + 1;
+      		int output = cells.length * cells.length ;
         	return unionFind.connected(input, output);
     }
 }
