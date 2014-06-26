@@ -11,15 +11,15 @@ public class Percolation {
     private WeightedQuickUnionUF unionFind;
     
     private int conv2Dto1D(int i, int j) {
-        return (i - 1) * cells.length + j;
+        return i * cells.length + j;
     }
     
     private void connectToOpenNeighbors(int i, int j) {
         int cStart, cLast, rStart, rLast;
-
-        if(i == 1) { 
+        
+        if (i == 1) { 
             rStart = 1;
-            rLast  = 2;
+            rLast  = 1;
         } else if (i == cells.length) {
             rStart = i - 1;
             rLast  = i;
@@ -27,9 +27,9 @@ public class Percolation {
             rStart = i - 1;
             rLast  = i + 1;
         }
-        if(j == 1) { 
+        if (j == 1) { 
             cStart = 1;
-            cLast  = 2;
+            cLast  = 1;
         } else if (j == cells.length) {
             cStart = j - 1;
             cLast  = j;
@@ -40,10 +40,18 @@ public class Percolation {
 	    for (int r = rStart; r <= rLast; r++) {
             for (int c = cStart; c <= cLast; c++) {
 	            if (isOpen(r,c)) {
-                    unionFind.union(conv2Dto1D(i,j), conv2Dto1D(r,c));
-		        }
+		            if (r == 1) {
+                        unionFind.union(cells.length * cells.length, conv2Dto1D(r-1, c-1));
+                    } else if (r == cells.length) {
+                        unionFind.union(cells.length * cells.length + 1, conv2Dto1D(r-1, c-1));
+                    }
+                    if (r != i && c != j) {
+                        unionFind.union(conv2Dto1D(i-1, j-1), conv2Dto1D(r-1, c-1));
+                    }
+                }
             }
         }
+        
     }
 	
     // create N-by-N grid, with all sites blocked
@@ -88,10 +96,8 @@ public class Percolation {
     
     // does the system percolate?
     public boolean percolates() {
-//   		int input = cells.length * cells.length;
-     		int input = 1;
-//    		int output = cells.length * cells.length + 1;
-      		int output = cells.length * cells.length ;
+       		int input = cells.length * cells.length;
+    		int output = cells.length * cells.length + 1;
         	return unionFind.connected(input, output);
     }
 }
