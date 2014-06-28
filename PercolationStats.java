@@ -56,6 +56,9 @@ public class PercolationStats {
     
     // returns upper bound of the 95% confidence interval
     public double confidenceHi() {
+    	for (int i = 0; i < values.length; i++) {
+    		System.out.println(values[i]);
+    		}
     	return mean() - ((1.96 * stddev()) / Math.sqrt(t));
     }
    
@@ -65,6 +68,7 @@ public class PercolationStats {
         int T = Integer.parseInt(args[1]);
         PercolationStats stats = new PercolationStats(N, T);
         
+       
         System.out.println("mean                    = " + stats.mean());
         System.out.println("stddev                  = " + stats.stddev());
         System.out.println("95% confidence interval = " + stats.confidenceLo() + ", " + stats.confidenceHi());
