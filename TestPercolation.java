@@ -6,13 +6,11 @@ import org.junit.After;
 public class TestPercolation {
     private Percolation p;
     private Percolation p1;
-    private Percolation p2;
 
     @Before
     public void setUp() {
         p = new Percolation(10);
         p1 = new Percolation(1);
-        p2 = new Percolation(2);
     }
 
     @Test
@@ -29,21 +27,20 @@ public class TestPercolation {
     public void test_one_open() {
        p.open(1, 3);
        assertTrue(p.isOpen(1, 3));
-       assertFalse(p.isFull(1, 3));
     }
 
     @Test
     public void test_adjacent_connected() {
         p.open(1, 1);
         p.open(2, 1);
-        assertFalse(p.isFull(2, 1));
+        assertTrue(p.isFull(2, 1));
     }
 
     @Test
     public void test_first_last_row_not_connected() {
         p.open(1, 1);
         assertTrue(p.isOpen(1, 1));
-        assertFalse(p.isFull(1, 1));
+        assertTrue(p.isFull(1, 1));
 
         p.open(10, 1);
         assertTrue(p.isOpen(10, 1));
@@ -55,7 +52,7 @@ public class TestPercolation {
         for (int i = 1; i <= 10; i++) {
             p.open(i, 5);
             assertTrue(p.isOpen(i, 5));
-            assertFalse(p.isFull(i, 5));
+            assertTrue(p.isFull(i, 5));
         }
         assertTrue(p.percolates());
     }
@@ -76,15 +73,14 @@ public class TestPercolation {
         for (int i = 1; i <= 10; i++, j++) {
             p.open(i, j);
             if (i > 1) p.open(i - 1, j);
-            assertFalse(p.isFull(i, j));
+            assertTrue(p.isFull(i, j));
         }
         assertTrue(p.percolates());
     }
 
     @Test
     public void test_backwash() {
-        for (int i = 1; i <= 10; i++) 
-        	p.open(i, 5);
+        for (int i = 1; i <= 10; i++) p.open(i, 5);
         assertTrue(p.percolates());
 
         p.open(10, 3);
@@ -101,18 +97,7 @@ public class TestPercolation {
     public void test_one_node_open() {
         p1.open(1, 1);
         assertTrue(p1.isOpen(1, 1));
-        assertFalse(p1.isFull(1, 1));
+        assertTrue(p1.isFull(1, 1));
         assertTrue(p1.percolates());
     }
-    @Test
-    public void test_2x2_one_edge_open() {
-        p2.open(1, 2);
-        p2.open(2, 2);
-        assertTrue(p2.isOpen(1, 2));
-        assertFalse(p2.isOpen(1, 1));
-        assertTrue(p2.isOpen(2, 2));
-        assertFalse(p2.isOpen(2, 1));
-        assertTrue(p2.percolates());
-    }
-
 }

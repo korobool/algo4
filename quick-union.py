@@ -31,9 +31,7 @@ from pprint import pprint
 # operations = ((4, 3), (3, 8), (6, 5), (9, 4), (2, 1),
 #              (8, 9), (5, 0), (7, 2), (6, 1), (1, 0), (6, 7))
 
-operations = ((8, 5), (4, 7), (6, 3),
-              (3, 1), (1, 5), (4, 9),
-              (0, 2), (0, 7), (1, 0))
+operations = ((2,5), (0,1), (2,0), (6,4), (4,9), (4,8), (6,3), (3,0), (2,7))
 
 for operation in operations:
     union(operation[0], operation[1])
