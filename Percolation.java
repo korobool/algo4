@@ -29,40 +29,51 @@ public class Percolation {
     private void connectToOpenNeighbors(int i, int j) {
         int cStart, cLast, rStart, rLast;
         
-        if (i == 1) { 
-            rStart = 1;
-            rLast  = 1;
-        } else if (i == cells.length) {
-            rStart = i - 1;
-            rLast  = i;
+        if (cells.length > 1) {
+            if (i == 1) { 
+                rStart = 1;
+                rLast  = 2;
+            } else if (i == cells.length) {
+                rStart = i - 1;
+                rLast  = i;
+            } else {
+                rStart = i - 1;
+                rLast  = i + 1;
+            }
+            if (j == 1) { 
+                cStart = 1;
+                cLast  = 2;
+            } else if (j == cells.length) {
+                cStart = j - 1;
+                cLast  = j;
+            } else {
+                cStart = j - 1;
+                cLast  = j + 1;
+            }
         } else {
-            rStart = i - 1;
-            rLast  = i + 1;
-        }
-        if (j == 1) { 
             cStart = 1;
             cLast  = 1;
-        } else if (j == cells.length) {
-            cStart = j - 1;
-            cLast  = j;
-        } else {
-            cStart = j - 1;
-            cLast  = j + 1;
+            rStart = 1;
+            rLast  = 1;
         }
+
         for (int r = rStart; r <= rLast; r++) {
             for (int c = cStart; c <= cLast; c++) {
+
                 if (isOpen(r, c)) {
                     if (r == 1) {
                         unionFind.union(cells.length * cells.length,
                                         conv2Dto1D(r-1, c-1));
-                    } else if (r == cells.length) {
+                    } 
+                    if (r == cells.length) {
                         unionFind.union(cells.length * cells.length + 1,
                                         conv2Dto1D(r-1, c-1));
                     }
-                    if (r != i && c != j) {
+                    if (!(r == i && c == j)) {
                         unionFind.union(conv2Dto1D(i-1, j-1), conv2Dto1D(r-1, c-1));
                     }
                 }
+
             }
         }
         
