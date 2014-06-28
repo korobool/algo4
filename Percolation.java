@@ -1,15 +1,27 @@
 public class Percolation {
-	
+
     private enum Cell {
         CLOSED,
         OPEN,
         LIQUID
     }
-	
+
     private Cell[][] cells;
     
     private WeightedQuickUnionUF unionFind;
-    
+   
+    // create N-by-N grid, with all sites blocked
+    public Percolation(int N) {
+        cells     = new Cell[N][N];
+        unionFind = new WeightedQuickUnionUF(N * N + 2);
+        
+        for (int r = 0; r < N; r++) {
+            for (int c = 0; c < N; c++) {
+                cells[r][c] = Cell.CLOSED;
+            }
+        }
+    }
+  
     private int conv2Dto1D(int i, int j) {
         return i * cells.length + j;
     }
@@ -37,13 +49,15 @@ public class Percolation {
             cStart = j - 1;
             cLast  = j + 1;
         }
-	    for (int r = rStart; r <= rLast; r++) {
+        for (int r = rStart; r <= rLast; r++) {
             for (int c = cStart; c <= cLast; c++) {
-	            if (isOpen(r,c)) {
-		            if (r == 1) {
-                        unionFind.union(cells.length * cells.length, conv2Dto1D(r-1, c-1));
+                if (isOpen(r, c)) {
+                    if (r == 1) {
+                        unionFind.union(cells.length * cells.length,
+                                        conv2Dto1D(r-1, c-1));
                     } else if (r == cells.length) {
-                        unionFind.union(cells.length * cells.length + 1, conv2Dto1D(r-1, c-1));
+                        unionFind.union(cells.length * cells.length + 1,
+                                        conv2Dto1D(r-1, c-1));
                     }
                     if (r != i && c != j) {
                         unionFind.union(conv2Dto1D(i-1, j-1), conv2Dto1D(r-1, c-1));
@@ -53,34 +67,21 @@ public class Percolation {
         }
         
     }
-	
-    // create N-by-N grid, with all sites blocked
-    public Percolation(int N) {
-        cells     = new Cell[N][N];
-        unionFind = new WeightedQuickUnionUF(N * N + 2);
-        
-        for (int r = 0; r < N; r++) {
-            for (int c = 0; c < N; c++) {
-                cells[r][c] = Cell.CLOSED;
-            }
-        }
-    }
     
     // open site (row i, column j) if it is not already
     public void open(int i, int j) {
-    	if (i < 1 || i > cells.length || j < 1 || j > cells.length) {
+        if (i < 1 || i > cells.length || j < 1 || j > cells.length) {
             throw new java.lang.IndexOutOfBoundsException();
         }
-    	
-    	if (!isOpen(i, j)) {
-    		cells[i-1][j-1] = Cell.OPEN;
-    		connectToOpenNeighbors(i, j);
-    	}
+        if (!isOpen(i, j)) {
+            cells[i-1][j-1] = Cell.OPEN;
+            connectToOpenNeighbors(i, j);
+        }
     }
     
     // is site (row i, column j) open?
     public boolean isOpen(int i, int j) {
-    	if (i < 1 || i > cells.length || j < 1 || j > cells.length) {
+        if (i < 1 || i > cells.length || j < 1 || j > cells.length) {
             throw new java.lang.IndexOutOfBoundsException();
         }
         return cells[i-1][j-1] == Cell.OPEN;
@@ -88,16 +89,16 @@ public class Percolation {
     
     // is site (row i, column j) full?    
     public boolean isFull(int i, int j) {
-    	if (i < 1 || i > cells.length || j < 1 || j > cells.length) {
+        if (i < 1 || i > cells.length || j < 1 || j > cells.length) {
             throw new java.lang.IndexOutOfBoundsException();
         }
-    	return cells[i-1][j-1] == Cell.LIQUID;
+        return cells[i-1][j-1] == Cell.LIQUID;
     }
     
     // does the system percolate?
     public boolean percolates() {
-       		int input = cells.length * cells.length;
-    		int output = cells.length * cells.length + 1;
-        	return unionFind.connected(input, output);
+        int input = cells.length * cells.length;
+        int output = cells.length * cells.length + 1;
+        return unionFind.connected(input, output);
     }
 }
