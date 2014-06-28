@@ -1,18 +1,21 @@
 public class PercolationStats {
         
     private double[] values;
+    private int t;
     
     // perform T independent computational experiments on an N-by-N grid
     public PercolationStats(int N, int T) {
         if (N <= 0 || T <= 0) {
             throw new IllegalArgumentException();
         }
-        
+
         Percolation percolation;
         
         values = new double[T];
+
+        t = T;
         
-        for (int t = 0; t < T; t++) {
+        for (int p = 0; p < T; t++) {
             
             int n = 0;
             percolation = new Percolation(N);
@@ -29,7 +32,7 @@ public class PercolationStats {
                 percolation.open(i, j);
                 
                 if (percolation.percolates()) {
-                    values[t] = n / (double) (N * N);
+                    values[p] = n / (double) (N * N);
                     break;
                 }
             }
