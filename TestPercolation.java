@@ -6,11 +6,13 @@ import org.junit.After;
 public class TestPercolation {
     private Percolation p;
     private Percolation p1;
+    private Percolation p2;
 
     @Before
     public void setUp() {
         p = new Percolation(10);
         p1 = new Percolation(1);
+        p2 = new Percolation(2);
     }
 
     @Test
@@ -102,4 +104,15 @@ public class TestPercolation {
         assertFalse(p1.isFull(1, 1));
         assertTrue(p1.percolates());
     }
+    @Test
+    public void test_2x2_one_edge_open() {
+        p2.open(1, 2);
+        p2.open(2, 2);
+        assertTrue(p2.isOpen(1, 2));
+        assertFalse(p2.isOpen(1, 1));
+        assertTrue(p2.isOpen(2, 2));
+        assertFalse(p2.isOpen(2, 1));
+        assertTrue(p2.percolates());
+    }
+
 }
