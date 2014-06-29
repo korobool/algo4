@@ -15,7 +15,7 @@ public class PercolationStats {
 
         t = T;
         
-        for (int p = 0; p < T; t++) {
+        for (int p = 0; p < T; p++) {
             
             int n = 0;
             percolation = new Percolation(N);
@@ -56,7 +56,7 @@ public class PercolationStats {
     
     // returns upper bound of the 95% confidence interval
     public double confidenceHi() {
-        return mean() - ((1.96 * stddev()) / Math.sqrt(t));
+        return mean() + ((1.96 * stddev()) / Math.sqrt(t));
     }
    
     // test client, described below
