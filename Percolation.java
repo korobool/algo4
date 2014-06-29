@@ -1,12 +1,14 @@
 public class Percolation {
 
-    private enum Cell {
-        CLOSED,
-        OPEN,
-        FULL
-    }
+    private static final int CLOSED = 0;
+    private static final int OPEN   = 2;
+//    private static final int FULL   = 4;
+    private static final int BOTTOM = 8;
+    private static final int TOP    = 16;
+    private static final int RIGHT  = 32;
+    private static final int LEFT   = 64;
 
-    private Cell[][] cells;
+    private int[][] cells;
     
     private WeightedQuickUnionUF unionFind;
    
@@ -15,12 +17,12 @@ public class Percolation {
         if (N < 0) {
             throw new java.lang.IllegalArgumentException();
         }
-        cells     = new Cell[N][N];
+        cells     = new int[N][N];
         unionFind = new WeightedQuickUnionUF(N * N + 2);
         
         for (int r = 0; r < N; r++) {
             for (int c = 0; c < N; c++) {
-                cells[r][c] = Cell.CLOSED;
+                cells[r][c] = CLOSED;
             }
         }
     }
@@ -28,52 +30,63 @@ public class Percolation {
     private int conv2Dto1D(int i, int j) {
         return i * cells.length + j;
     }
+  
+    private boolean testBit(int i, int j, int bit) {
+        return (cells[i][j] &  bit) != 0;
+    }
     
+    private void unionWithOpen(int i, int j, int k, int l) {
+        if (isOpen(k, l)) {
+            unionFind.union(conv2Dto1D(i-1, j-1), conv2Dto1D(k-1, l-1));
+        }
+//        if (testBit(k-1, l-1, FULL)) {
+//            cells[i-1][j-1] |= FULL;
+//        }
+    }
+
     private void connectToOpenNeighbors(int i, int j) {
-        int cStart, cLast, rStart, rLast;
         
         if (cells.length > 1) {
-            if (i == 1) { 
-                rStart = 1;
-                rLast  = 2;
+            if (i == 1) {
+//                cells[i-1][j-1] |= FULL;
+                cells[i-1][j-1] |= BOTTOM;
                 unionFind.union(cells.length * cells.length,
-                                        conv2Dto1D(i-1, j-1));
+                                conv2Dto1D(i-1, j-1));
             } else if (i == cells.length) {
-                rStart = i - 1;
-                rLast  = i;
+                cells[i-1][j-1] |= TOP;
                 unionFind.union(cells.length * cells.length + 1,
-                                        conv2Dto1D(i-1, j-1));
+                                conv2Dto1D(i-1, j-1));
             } else {
-                rStart = i - 1;
-                rLast  = i + 1;
+                cells[i-1][j-1] |= BOTTOM;
+                cells[i-1][j-1] |= TOP;
             }
-            if (j == 1) { 
-                cStart = 1;
-                cLast  = 2;
+            if (j == 1) {
+                cells[i-1][j-1] |= RIGHT;
             } else if (j == cells.length) {
-                cStart = j - 1;
-                cLast  = j;
+                cells[i-1][j-1] |= LEFT;
             } else {
-                cStart = j - 1;
-                cLast  = j + 1;
+                cells[i-1][j-1] |= RIGHT;
+                cells[i-1][j-1] |= LEFT;
+            }           
+
+            if (testBit(i-1, j-1, BOTTOM)) {
+                unionWithOpen(i, j, i+1, j); 
             }
-        } else {
+            if (testBit(i-1, j-1, TOP)) {
+                unionWithOpen(i, j, i-1, j); 
+            }
+            if (testBit(i-1, j-1, RIGHT)) {
+                unionWithOpen(i, j, i, j+1);
+            }
+            if (testBit(i-1, j-1, LEFT)) {
+                unionWithOpen(i, j, i, j-1);
+            }
+       } else {
+//            cells[0][0] |= FULL;
             unionFind.union(cells.length * cells.length, 0);
             unionFind.union(cells.length * cells.length + 1, 0);
             return; 
         }
-
-        for (int r = rStart; r <= rLast; r++) {
-            for (int c = cStart; c <= cLast; c++) {
-                if (isOpen(r, c)) {
-                    if (!(r == i && c == j)) {
-                        unionFind.union(conv2Dto1D(i-1, j-1),
-                                        conv2Dto1D(r-1, c-1));
-                    }
-                }
-            }
-        }
-        
     }
     
     // open site (row i, column j) if it is not already
@@ -82,7 +95,7 @@ public class Percolation {
             throw new java.lang.IndexOutOfBoundsException();
         }
         if (!isOpen(i, j)) {
-            cells[i-1][j-1] = Cell.OPEN;
+            cells[i-1][j-1] |= OPEN;
             connectToOpenNeighbors(i, j);
         }
     }
@@ -92,7 +105,7 @@ public class Percolation {
         if (i < 1 || i > cells.length || j < 1 || j > cells.length) {
             throw new java.lang.IndexOutOfBoundsException();
         }
-        return cells[i-1][j-1] == Cell.OPEN;
+        return testBit(i-1, j-1, OPEN);
     } 
     
     // is site (row i, column j) full?    
@@ -103,6 +116,7 @@ public class Percolation {
         if (i < 1 || i > cells.length || j < 1 || j > cells.length) {
             throw new java.lang.IndexOutOfBoundsException();
         }
+//        return testBit(i-1, j-1, FULL);
         return unionFind.connected(input, output);
     }
     
