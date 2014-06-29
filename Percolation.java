@@ -14,7 +14,7 @@ public class Percolation {
    
     // create N-by-N grid, with all sites blocked
     public Percolation(int N) {
-        if (N < 0) {
+        if (N < 1) {
             throw new java.lang.IllegalArgumentException();
         }
         cells     = new int[N][N];
