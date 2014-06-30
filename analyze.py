@@ -1,5 +1,9 @@
 from math import log
 import sys
+
+if len(sys.argv) != 2:
+    print('Usage: Pass the two-columned comma-separated txt file to draw a graph.')
+
 data = open(sys.argv[1]).readlines()
 
 def to_tuple(item):
