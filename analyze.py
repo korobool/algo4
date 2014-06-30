@@ -1,5 +1,7 @@
 from math import log
 import sys
+import re
+
 
 if len(sys.argv) != 2:
     print('Usage: Pass the two-columned comma-separated txt file to draw a graph.')
@@ -15,7 +17,7 @@ def to_tuple(item):
         return ()
 
 data = dict(filter(lambda x: len(x) == 2, 
-            map(lambda s: to_tuple(s.strip().split(', ')), data)))
+            map(lambda s: to_tuple(re.split(' +', s.strip())), data)))
 
 print data
 
