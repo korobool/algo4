@@ -3,6 +3,7 @@ import sys
 
 if len(sys.argv) != 2:
     print('Usage: Pass the two-columned comma-separated txt file to draw a graph.')
+    exit()
 
 data = open(sys.argv[1]).readlines()
 
@@ -18,13 +19,15 @@ data = dict(filter(lambda x: len(x) == 2,
 
 print data
 
-import matplotlib.pyplot as plt
-plt.plot(data.keys(), data.values(), 'ro')
+def draw(data):
+    import matplotlib.pyplot as plt
+    plt.plot(data.keys(), data.values(), 'ro')
 
-plt.ylabel('some numbers')
+    # plt.ylabel('some numbers')
 
-plt.yscale('log', basex=2)
-plt.xscale('log', basex=2)
+    plt.yscale('log', basex=2)
+    plt.xscale('log', basex=2)
 
-plt.show()
+    plt.show()
 
+draw(data)
