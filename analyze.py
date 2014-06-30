@@ -1,6 +1,6 @@
 from math import log
-
-data = open('data.txt').readlines()
+import sys
+data = open(sys.argv[1]).readlines()
 
 def to_tuple(item):
     if len(item) == 2 and float(item[1]) > 0:
