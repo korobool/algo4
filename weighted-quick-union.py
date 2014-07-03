@@ -41,7 +41,7 @@ class WeightedQuickUnion():
 
 wqi = WeightedQuickUnion(10)
 
-operations = ((2, 5), (0, 1), (2, 0), (6, 4), (4, 9), (4, 8), (6, 3), (3, 0), (2, 7))
+operations = ((6,9), (6,8), (3,4), (2,6), (2,1), (0,5), (3,5), (9,3), (3,7))
 
 for o in operations:
     wqi.union(o[0], o[1])

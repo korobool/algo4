@@ -28,7 +28,8 @@ from pprint import pprint
 
 pprint(id.values())
 
-operations = ((1,4),(7,4),(6,9), (9,4), (2,8), (8,0))
+operations = ((5,6),(1,8),(7,9),
+              (0,3),(1,2),(6,2))
 
 for operation in operations:
     union(operation[0], operation[1])
